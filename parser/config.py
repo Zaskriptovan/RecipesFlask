@@ -1,5 +1,4 @@
-url_main = 'https://www.russianfood.com/'
-url_page = 'https://www.russianfood.com/?page='
+url = 'https://www.russianfood.com/'
 
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/'
