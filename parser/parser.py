@@ -3,7 +3,7 @@ from random import randint
 
 from parser_href import *
 
-PAGES_QUANTITY = 1
+PAGES_QUANTITY = 10
 
 
 def main():

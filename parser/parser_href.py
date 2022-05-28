@@ -8,10 +8,8 @@ from config import url, headers
 session = requests.Session()
 
 
-def get_recipe_title(href):
-    response = session.get(url=href, headers=headers)
-    bs = BeautifulSoup(response.text, 'lxml')
-    recipes_title = bs.find('td', class_="padding_l padding_r").find('h1', class_="title").text
+def get_recipe_title(bs):
+    recipes_title = bs.find('h1', class_="title").text
 
     return recipes_title
 
@@ -19,7 +17,10 @@ def get_recipe_title(href):
 def get_content(hrefs):
     titles = []
     for hr in hrefs:
-        tit = get_recipe_title(hr)
+        response = session.get(url=hr, headers=headers)
+        bs = BeautifulSoup(response.text, 'lxml')
+
+        tit = get_recipe_title(bs)
         titles.append(tit)
 
     return titles
