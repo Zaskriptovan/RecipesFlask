@@ -16,7 +16,7 @@ def main():
         for key, value in content.items():
             print(f'{key}:\n{value[0]}\n{value[1]}\n--------------------------------------')
 
-        print(f'Обработал {page}/{PAGES_QUANTITY} страниц')
+        print(f'Обработал {page}/{PAGES_QUANTITY} страниц\n====================================')
         time.sleep(randint(2, 5))
 
 

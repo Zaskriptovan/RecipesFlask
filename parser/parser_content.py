@@ -1,9 +1,16 @@
 from bs4 import BeautifulSoup
-import requests
 
 from config import headers
+from parser_href import session
 
-session = requests.Session()
+
+def get_recipe_text(bs):
+    try:
+        recipe_text = bs.find('div', class_="step_images_n").find_all('p')
+    except AttributeError:
+        recipe_text = False
+
+    return recipe_text
 
 
 def get_ingredients(bs):
@@ -29,8 +36,9 @@ def get_content(hrefs):
 
         title = get_recipe_title(bs)
         ingredients = get_ingredients(bs)
-        recipe_text = 0
+        recipe_text = get_recipe_text(bs)
 
-        content[title] = [ingredients, recipe_text]
+        if recipe_text:
+            content[title] = [ingredients, recipe_text]
 
     return content
