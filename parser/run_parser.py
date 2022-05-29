@@ -2,8 +2,9 @@ import time
 from random import randint
 
 from parser_href import *
+from parser_content import *
 
-PAGES_QUANTITY = 10
+PAGES_QUANTITY = 1
 
 
 def main():
@@ -12,8 +13,8 @@ def main():
         hrefs_some_page = get_recipes_href(as_some_page)
         content = get_content(hrefs_some_page)
 
-        print('\n'.join(content))
-        # print('\n'.join(hrefs_some_page))
+        for key, value in content.items():
+            print(key, ':', value)
 
         print(f'Обработал {page}/{PAGES_QUANTITY} страниц')
         time.sleep(randint(2, 5))

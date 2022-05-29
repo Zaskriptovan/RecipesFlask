@@ -8,24 +8,6 @@ from config import url, headers
 session = requests.Session()
 
 
-def get_recipe_title(bs):
-    recipes_title = bs.find('h1', class_="title").text
-
-    return recipes_title
-
-
-def get_content(hrefs):
-    titles = []
-    for hr in hrefs:
-        response = session.get(url=hr, headers=headers)
-        bs = BeautifulSoup(response.text, 'lxml')
-
-        tit = get_recipe_title(bs)
-        titles.append(tit)
-
-    return titles
-
-
 def get_recipes_href(all_a):
     all_recipes_hrefs = []
     for i in all_a:
