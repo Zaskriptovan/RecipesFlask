@@ -6,7 +6,11 @@ from parser_href import session
 
 def get_recipe_text(bs):
     try:
-        recipe_text = bs.find('div', class_="step_images_n").find_all('p')
+        recipe_p = bs.find('div', class_="step_images_n").find_all('p')
+        recipe_text = ''
+        for i in recipe_p:
+            recipe_text += i.text
+            # recipe_text.append(text.replace('...', ''))
     except AttributeError:
         recipe_text = False
 

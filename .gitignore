@@ -3,3 +3,4 @@ venv/
 .vscode/
 project/__pycache__/
 parser/__pycache__/
+parser/config.py
