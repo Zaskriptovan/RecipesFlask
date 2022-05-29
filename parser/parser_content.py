@@ -8,7 +8,12 @@ session = requests.Session()
 
 def get_ingredients(bs):
     ingredients = bs.find('table', class_="ingr").find_all('span', class_='')
-    return ingredients
+    all_ingredients = []
+    for i in ingredients:
+        ing = i.text
+        all_ingredients.append(ing)
+
+    return all_ingredients
 
 
 def get_recipe_title(bs):

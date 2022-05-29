@@ -14,7 +14,7 @@ def main():
         content = get_content(hrefs_some_page)
 
         for key, value in content.items():
-            print(key, ':', value)
+            print(f'{key}:\n{value[0]}\n{value[1]}\n--------------------------------------')
 
         print(f'Обработал {page}/{PAGES_QUANTITY} страниц')
         time.sleep(randint(2, 5))
