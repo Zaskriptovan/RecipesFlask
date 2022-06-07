@@ -17,8 +17,8 @@ class Recipes(db.Model):
 
 class Ingredients(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    ingredients = db.Column(db.Text, nullable=False)
+    ingredient = db.Column(db.Text, nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'))
 
     def __repr__(self):
-        return f'ing: {self.ingredients}'
+        return f'{self.ingredient}'
