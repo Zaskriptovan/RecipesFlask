@@ -11,7 +11,7 @@ def get_recipe_text(soup):
         tags_p = soup.find('div', class_="step_images_n").find_all('p')
         recipe_text = ''
         for p in tags_p:
-            recipe_text += p.text.replace("\n", "")
+            recipe_text += p.text.replace("\n", "") + ' '
     except AttributeError:
         recipe_text = False
 
@@ -35,7 +35,7 @@ def get_recipe_title(soup):
 
 def get_content(hrefs_one_page):
     count = 1
-    content = dict()
+    content_dict = dict()
     for hr in hrefs_one_page:
         print(random_proxy(choice(data)))
         response = requests.get(url=hr, headers=headers, proxies=random_proxy(choice(data)))
@@ -45,12 +45,12 @@ def get_content(hrefs_one_page):
         ingredients = get_ingredients(soup)
         recipe_text = get_recipe_text(soup)
 
-        if recipe_text:
-            content[title] = [ingredients, recipe_text]
+        if title and ingredients and recipe_text:
+            content_dict[title] = [ingredients, recipe_text]
 
             print('Добавлен', count, 'рецепт')
             count += 1
 
         pause()
 
-    return content
+    return content_dict

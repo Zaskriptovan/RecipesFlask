@@ -7,13 +7,18 @@ db = SQLAlchemy(app)
 class Recipes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
-    ingredients = db.Column(db.Text, nullable=False)
     text = db.Column(db.Text, nullable=False)
 
-    def __repr__(self):
-        return f'id: {self.id}, text: {self.text}'
+    ingredients = db.relationship('Ingredients', backref='recipe')
 
-# class Users(db.Model):
-# id = db.Column(db.Integer, primary_key=True)
-# email = db.Column(db.String(50), unique=True)
-# password = db.Column(db.String(500), nullable=False)
+    def __repr__(self):
+        return f'id: {self.id}, title: {self.title}'
+
+
+class Ingredients(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ingredients = db.Column(db.Text, nullable=False)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'))
+
+    def __repr__(self):
+        return f'ing: {self.ingredients}'
