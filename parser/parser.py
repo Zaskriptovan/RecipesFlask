@@ -27,19 +27,19 @@ class Parser:
         self.pages_quantity = pages_quantity
 
     @staticmethod
-    def create_soup(response):
+    def _create_soup(response):
         soup = BeautifulSoup(response.text, 'lxml')
         return soup
 
-    def get_tags_a(self, page):
+    def _get_tags_a(self, page):
         response = Request.do_request(url=f'{self.home_url}?page={page}')
-        soup = self.create_soup(response)
+        soup = self._create_soup(response)
         tags_a = soup.find_all('a', class_='title', href=re.compile("/recipes/"))
 
         return tags_a
 
-    def get_hrefs(self, page):
-        tags_a = self.get_tags_a(page)
+    def _get_hrefs(self, page):
+        tags_a = self._get_tags_a(page)
         hrefs_one_page = []
         for i in tags_a:
             recipes_href = i['href']
@@ -48,7 +48,7 @@ class Parser:
         return hrefs_one_page
 
     @staticmethod
-    def get_recipe_text(soup):
+    def _get_recipe_text(soup):
         try:
             tags_p = soup.find('div', class_="step_images_n").find_all('p')
             recipe_text = ''
@@ -60,7 +60,7 @@ class Parser:
         return recipe_text.replace("...", "")
 
     @staticmethod
-    def get_ingredients(soup):
+    def _get_ingredients(soup):
         spans = soup.find('table', class_="ingr").find_all('span', class_='')
         ingredients = []
         for span in spans:
@@ -70,23 +70,23 @@ class Parser:
         return ingredients
 
     @staticmethod
-    def get_recipe_title(soup):
+    def _get_recipe_title(soup):
         recipes_title = soup.find('h1', class_="title").text
         return recipes_title
 
     def get_content(self):
         content_dict = dict()
         for page in range(1, self.pages_quantity + 1):
-            hrefs_one_page = self.get_hrefs(page)
+            hrefs_one_page = self._get_hrefs(page)
             wait()
             count = 1
             for hr in hrefs_one_page:
                 response = Request.do_request(url=hr)
-                soup = self.create_soup(response)
+                soup = self._create_soup(response)
 
-                title = self.get_recipe_title(soup)
-                ingredients = self.get_ingredients(soup)
-                recipe_text = self.get_recipe_text(soup)
+                title = self._get_recipe_title(soup)
+                ingredients = self._get_ingredients(soup)
+                recipe_text = self._get_recipe_text(soup)
 
                 if title and ingredients and recipe_text:
                     content_dict[title] = [ingredients, recipe_text]
