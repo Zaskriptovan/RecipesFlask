@@ -7,6 +7,7 @@ from immunity import get_headers, get_random_proxy, wait
 
 
 class Request:
+
     @staticmethod
     def do_request(url):
         while True:
@@ -19,19 +20,11 @@ class Request:
                 continue
 
 
-class SaveToDB:
-    @staticmethod
-    def save_to_db(title, ingredients, recipe_text):
-        print(title)
-        print(ingredients)
-        print(recipe_text)
-
-
 class Parser:
 
-    def __init__(self, pages_quantity, home_url):
-        self.pages_quantity = pages_quantity
+    def __init__(self, home_url, pages_quantity):
         self.home_url = home_url
+        self.pages_quantity = pages_quantity
 
     @staticmethod
     def create_soup(response):
@@ -81,27 +74,37 @@ class Parser:
         recipes_title = soup.find('h1', class_="title").text
         return recipes_title
 
-    def get_content(self, hrefs_one_page):
-        count = 1
-        for hr in hrefs_one_page:
-            response = Request.do_request(url=hr)
-            soup = self.create_soup(response)
-
-            title = self.get_recipe_title(soup)
-            ingredients = self.get_ingredients(soup)
-            recipe_text = self.get_recipe_text(soup)
-
-            if title and ingredients and recipe_text:
-                SaveToDB.save_to_db(title, ingredients, recipe_text)
-
-                print('===Добавлен', count, 'рецепт===')
-                count += 1
-            wait()
-
-    def run(self):
+    def get_content(self):
+        content_dict = dict()
         for page in range(1, self.pages_quantity + 1):
             hrefs_one_page = self.get_hrefs(page)
             wait()
-            self.get_content(hrefs_one_page)
+            count = 1
+            for hr in hrefs_one_page:
+                response = Request.do_request(url=hr)
+                soup = self.create_soup(response)
+
+                title = self.get_recipe_title(soup)
+                ingredients = self.get_ingredients(soup)
+                recipe_text = self.get_recipe_text(soup)
+
+                if title and ingredients and recipe_text:
+                    content_dict[title] = [ingredients, recipe_text]
+                    print('===Спарсил', count, 'рецептов===')
+                    count += 1
+                wait()
 
             print(f'Обработал {page}/{self.pages_quantity} страниц')
+
+        return content_dict
+
+
+class WriteRecipesToDB:
+
+    @staticmethod
+    def save_to_db(recipes):
+        for title, ing_and_text in recipes.items():
+            print(title)
+            print(ing_and_text[0])
+            print(ing_and_text[1])
+            print('--------------------------------------------------------------')
