@@ -90,7 +90,7 @@ class Parser:
 
                 if title and ingredients and recipe_text:
                     content_dict[title] = [ingredients, recipe_text]
-                    print('===Спарсил', count, 'рецептов===')
+                    print(f'=== Спарсил рецептов: {count} ===')
                     count += 1
                 wait()
 
