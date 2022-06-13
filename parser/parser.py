@@ -6,6 +6,15 @@ from bs4 import BeautifulSoup
 from immunity import get_headers, get_random_proxy, wait
 
 
+class CheckText:
+
+    @staticmethod
+    def check_str(text):
+        pattern = '[а-яА-Яa-zA-Z]'
+        if re.search(pattern, text):
+            return True
+
+
 class Request:
 
     @staticmethod
@@ -60,13 +69,17 @@ class Parser:
         return recipe_text.replace("...", "")
 
     @staticmethod
-    def _get_ingredients(soup):
+    def _get_ingredients_and_quantity(soup):
         spans = soup.find('table', class_="ingr").find_all('span', class_='')
-        ingredients = []
+        ingredients = dict()
         for span in spans:
             ing = span.text
-            ingredients.append(ing)
-
+            if CheckText.check_str(ing):
+                try:
+                    result = re.split(r'[-—]', ing, maxsplit=1)
+                    ingredients[result[0].strip()] = result[1].strip()
+                except:
+                    pass
         return ingredients
 
     @staticmethod
@@ -85,7 +98,7 @@ class Parser:
                 soup = self._create_soup(response)
 
                 title = self._get_recipe_title(soup)
-                ingredients = self._get_ingredients(soup)
+                ingredients = self._get_ingredients_and_quantity(soup)
                 recipe_text = self._get_recipe_text(soup)
 
                 if title and ingredients and recipe_text:
