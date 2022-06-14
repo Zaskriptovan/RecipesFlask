@@ -12,12 +12,14 @@
     <p><input type="submit" value="Отправить">
   </form>
 
+
+
   {% for rec in recipes %}
 
   <h2>{{ rec.title }}</h2>
 
   <ul>
-    {% for ing in rec.ingredients %}
+    {% for ing in rec.book %}
     <li>{{ ing }}</li>
     {% endfor %}
   </ul>
