@@ -13,18 +13,17 @@
   </form>
 
 
+  {% for recipe in recipes %}
 
-  {% for rec in recipes %}
-
-  <h2>{{ rec.title }}</h2>
+  <h2>{{ recipe.title }}</h2>
 
   <ul>
-    {% for ing in rec.book %}
-    <li>{{ ing }}</li>
+    {% for full_recipe in recipe.book %}
+    <li>{{ full_recipe.ingredient }} — {{ full_recipe.quantity }}</li>
     {% endfor %}
   </ul>
 
-  <p>{{ rec.text }}</p>
+  <p>{{ recipe.description }}</p>
 
   {% endfor %}
 

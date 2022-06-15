@@ -57,16 +57,16 @@ class Parser:
         return hrefs_one_page
 
     @staticmethod
-    def _get_recipe_text(soup):
+    def _get_recipe_description(soup):
         try:
             tags_p = soup.find('div', class_="step_images_n").find_all('p')
-            recipe_text = ''
+            recipe_description = ''
             for p in tags_p:
-                recipe_text += p.text.replace("\n", "") + ' '
+                recipe_description += p.text.replace("\n", "") + ' '
         except AttributeError:
-            recipe_text = False
+            recipe_description = False
 
-        return recipe_text.replace("...", "")
+        return recipe_description.replace("...", "")
 
     @staticmethod
     def _get_ingredients_and_quantity(soup):
@@ -99,10 +99,10 @@ class Parser:
 
                 title = self._get_recipe_title(soup)
                 ingredients = self._get_ingredients_and_quantity(soup)
-                recipe_text = self._get_recipe_text(soup)
+                description = self._get_recipe_description(soup)
 
-                if title and ingredients and recipe_text:
-                    content_dict[title] = [ingredients, recipe_text]
+                if title and ingredients and description:
+                    content_dict[title] = [ingredients, description]
                     print(f'=== Спарсил рецептов: {count} ===')
                     count += 1
                 wait()
@@ -116,8 +116,8 @@ class WriteRecipesToDB:
 
     @staticmethod
     def save_to_db(recipes):
-        for title, ing_and_text in recipes.items():
+        for title, ing_and_description in recipes.items():
             print(title)
-            print(ing_and_text[0])
-            print(ing_and_text[1])
+            print(ing_and_description[0])
+            print(ing_and_description[1])
             print('--------------------------------------------------------------')

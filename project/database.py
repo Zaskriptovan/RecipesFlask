@@ -11,20 +11,18 @@ class Book(db.Model):
     ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'))
     quantity_id = db.Column(db.Integer, db.ForeignKey('quantity.id'))
 
-    # __table_args__ = (db.UniqueConstraint(recipe_id, ingredient_id, quantity_id),)
-
     recipe = db.relationship('Recipes', back_populates='book')
     ingredient = db.relationship('Ingredients', back_populates='book')
     quantity = db.relationship('Quantity', back_populates='book')
 
     def __repr__(self):
-        return f'{self.ingredient} — {self.quantity}'
+        return f'repr b {self.ingredient} {self.quantity}'
 
 
 class Recipes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.Text, nullable=False)
-    text = db.Column(db.Text, nullable=False)
+    title = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.Text, nullable=False)
 
     book = db.relationship('Book', back_populates='recipe')
 
