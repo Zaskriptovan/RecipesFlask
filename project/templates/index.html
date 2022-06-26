@@ -1,32 +1,17 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <title>Глав</title>
-</head>
+{% block content %}
 
-<body>
-  <form action="/" method="post">
-    <p><input type="text" name="text">
-    <p><input type="submit" value="Отправить">
-  </form>
+{% for recipe in recipes %}
+<h3>{{ recipe.title }}</h3>
 
-
-  {% for recipe in recipes %}
-
-  <h2>{{ recipe.title }}</h2>
-
-  <ul>
-    {% for full_recipe in recipe.book %}
-    <li>{{ full_recipe.ingredient }} — {{ full_recipe.quantity }}</li>
-    {% endfor %}
-  </ul>
-
-  <p>{{ recipe.description }}</p>
-
+<ul>
+  {% for full_recipe in recipe.book %}
+  <li>{{ full_recipe.ingredient }} — {{ full_recipe.quantity }}</li>
   {% endfor %}
+</ul>
 
-</body>
+<p>{{ recipe.description }}</p>
+{% endfor %}
 
-</html>
+{% endblock %}

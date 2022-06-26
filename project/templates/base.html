@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="#">
+
+  {% if title %}
+  <title>Рецепты - {{ title }}</title>
+  {% else %}
+  <title>Рецепты - Главная</title>
+  {% endif %}
+</head>
+
+<body>
+  {% block mainmenu %}
+  <ul>
+    <li><a href='/'>Главная</a></li>
+    <li><a href='/registration'>Регистрация</a></li>
+    <li><a href='/about'>О сайте</a></li>
+  </ul>
+  {% endblock %}
+
+  {% block title %}
+  {% if title %}
+  <h1>{{ title }}</h1>
+  {% else %}
+  <h1>Главная</h1>
+  {% endif %}
+  {% endblock %}
+
+  <form action="search" method="get">
+    <p><input type="text" placeholder="Поиск" name="q" value="{{ request.args.get('q', '') }}" required></p>
+    <p><input type="submit" value="Найти"></p>
+  </form>
+
+
+  {% block content %}
+  {% endblock %}
+
+</body>
+
+</html>
