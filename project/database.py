@@ -16,7 +16,7 @@ class Book(db.Model):
     quantity = db.relationship('Quantity', back_populates='book')
 
     def __repr__(self):
-        return f'Объект ассоц {self.recipe} — {self.ingredient}'
+        return f'<Объект ассоц>'
 
 
 class Recipes(db.Model):
@@ -27,7 +27,7 @@ class Recipes(db.Model):
     book = db.relationship('Book', back_populates='recipe')
 
     def __repr__(self):
-        return f'{self.title}'
+        return f'<{self.title}>'
 
 
 class Ingredients(db.Model):
@@ -37,7 +37,7 @@ class Ingredients(db.Model):
     book = db.relationship('Book', back_populates='ingredient')
 
     def __repr__(self):
-        return f'{self.ingredient}'
+        return f'<{self.ingredient}>'
 
 
 class Quantity(db.Model):
@@ -47,4 +47,4 @@ class Quantity(db.Model):
     book = db.relationship('Book', back_populates='quantity')
 
     def __repr__(self):
-        return f'{self.quantity}'
+        return f'<{self.quantity}>'

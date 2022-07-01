@@ -7,8 +7,17 @@
 {% endfor %}
 
 
-{% for rec in recipes %}
-<p>{{ rec.title }}</p>
+{% for recipe in recipes %}
+
+<h3>{{ recipe.title }}</h3>
+
+<ul>
+  {% for full_recipe in recipe.book %}
+  <li>{{ full_recipe.ingredient.ingredient }} — {{ full_recipe.quantity.quantity }}</li>
+  {% endfor %}
+</ul>
+
 {% endfor %}
+
 
 {% endblock %}

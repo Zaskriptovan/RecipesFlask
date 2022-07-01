@@ -1,63 +1,34 @@
-from flask import render_template, request
+from flask import render_template, request, flash
 from project.database import db, Recipes, Ingredients, Book
-import time
 
 
 class Searcher:
+    @classmethod
+    def search_for_recipe_matches(cls, intersect_recipes_id):
+        recipes = Recipes.query.filter(Recipes.id.in_(intersect_recipes_id)).all()
+        return recipes
 
     @classmethod
-    def intersect_recipes(cls, all_r):
-        result = db.intersect(*all_r)
+    def intersect_recipes_id(cls, recipes_id):
+        result = db.intersect(*recipes_id)
         return result
 
     @classmethod
-    def search_recipes_new(cls, search_elements):
-        all_found_recipes = []
+    def search_recipes_id_by_ingredients(cls, search_elements):
+        all_found_recipes_id = []
         for ing in search_elements:
-            rec = db.session.query(Recipes).join(Book, Book.recipe_id == Recipes.id).join(
-                Ingredients, Book.ingredient_id == Ingredients.id).filter(
-                Ingredients.ingredient.ilike(f'%{ing.strip()}%'))
-            all_found_recipes.append(rec)
+            rec = db.session.query(Recipes.id) \
+                .join(Book, Book.recipe_id == Recipes.id) \
+                .join(Ingredients, Book.ingredient_id == Ingredients.id) \
+                .filter(Ingredients.ingredient.ilike(f'%{ing}%'))
+            all_found_recipes_id.append(rec)
 
-        return all_found_recipes
+        return all_found_recipes_id
 
     @classmethod
-    def get_search_elem(cls, q):
-        search_elem = q.split(',')
-        return search_elem
-
-    # @classmethod
-    # def search_ingredient(cls, ing):
-    #     ingredient = Ingredients.query.filter(Ingredients.ingredient.ilike(f'%{ing.strip()}%')).first()
-    #     return ingredient
-    #
-    # @classmethod
-    # def search_id_recipes(cls, search_elements):
-    #     ids = []
-    #     temp_ids = []
-    #     for ing in search_elements:
-    #         ingredient = cls.search_ingredient(ing)
-    #         if ingredient is None:
-    #             return None
-    #
-    #         if not ids:
-    #             for j in ingredient.book:
-    #                 ids.append(j.recipe_id)
-    #         elif ids:
-    #             for j in ingredient.book:
-    #                 temp_ids.append(j.recipe_id)
-    #             ids = list(set(ids) & set(temp_ids))
-    #
-    #     return ids
-    #
-    # @classmethod
-    # def search_recipes(cls, ids):
-    #     recipes = []
-    #     for i in ids:
-    #         recipe = Recipes.query.get(i)
-    #         recipes.append(recipe)
-    #
-    #     return recipes
+    def get_search_elements(cls, q):
+        search_elements = [x.strip() for x in q.split(',')]
+        return search_elements
 
 
 class Handler:
@@ -70,25 +41,12 @@ class Handler:
     def search(cls):
         q = request.args.get('q')
         if q:
-            search_elements = Searcher.get_search_elem(q)
-            all_found_recipes = Searcher.search_recipes_new(search_elements)
-            query = Searcher.intersect_recipes(all_found_recipes)
-            recipes = db.session.execute(query)
-            print(recipes.first()['recipes_title'])
+            search_elements = Searcher.get_search_elements(q)
+            all_found_recipes_id = Searcher.search_recipes_id_by_ingredients(search_elements)
+            intersect_recipes_id = Searcher.intersect_recipes_id(all_found_recipes_id)
+            recipes = Searcher.search_for_recipe_matches(intersect_recipes_id)
 
-            # СТАРЫЙ ----------------------------------------------
-            # search_elements = Searcher.get_search_elem(q)
-            # start_time = time.perf_counter()
-            #
-            # ids = Searcher.search_id_recipes(search_elements)
-            #
-            # if ids is None:
-            #     # flash('Не найдено')
-            #     return render_template('search.html', title='Поиск')
-            #
-            # recipes = Searcher.search_recipes(ids)
-            # # print(recipes[0])
-            #
-            # print(f'Время: {time.perf_counter() - start_time}')
+            if not recipes:
+                flash('НЕ НАЙДЕНО')
 
-            return render_template('search.html', title='Поиск')
+            return render_template('search.html', recipes=recipes, title='Поиск')
