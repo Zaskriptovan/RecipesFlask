@@ -30,7 +30,7 @@
   {% endblock %}
 
   <form action="search" method="get">
-    <p><input type="text" placeholder="Поиск" name="q" value="{{ request.args.get('q', '') }}" required></p>
+    <p><input type="text" placeholder="Поиск" name="q" value="{{ request.args.get('q', '') }}"></p>
     <p><input type="submit" value="Найти"></p>
   </form>
 

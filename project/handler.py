@@ -30,23 +30,30 @@ class Searcher:
         search_elements = [x.strip() for x in q.split(',')]
         return search_elements
 
+    @classmethod
+    def result(cls, q):
+        search_elements = cls.get_search_elements(q)
+        all_found_recipes_id = cls.search_recipes_id_by_ingredients(search_elements)
+        intersect_recipes_id = cls.intersect_recipes_id(all_found_recipes_id)
+        recipes = cls.search_for_recipe_matches(intersect_recipes_id)
+
+        return recipes
+
 
 class Handler:
-    @classmethod
-    def index(cls):
-        recipes = Recipes.query.order_by(Recipes.id.desc()).limit(5).all()
+    @staticmethod
+    def index():
+        recipes = Recipes.query.order_by(Recipes.id.desc()).limit(20).all()
         return render_template('index.html', recipes=recipes)
 
-    @classmethod
-    def search(cls):
+    @staticmethod
+    def search():
         q = request.args.get('q')
         if q:
-            search_elements = Searcher.get_search_elements(q)
-            all_found_recipes_id = Searcher.search_recipes_id_by_ingredients(search_elements)
-            intersect_recipes_id = Searcher.intersect_recipes_id(all_found_recipes_id)
-            recipes = Searcher.search_for_recipe_matches(intersect_recipes_id)
-
+            recipes = Searcher.result(q)
             if not recipes:
                 flash('НЕ НАЙДЕНО')
-
             return render_template('search.html', recipes=recipes, title='Поиск')
+
+        else:
+            return render_template('search.html', title='Поиск')

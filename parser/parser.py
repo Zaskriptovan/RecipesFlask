@@ -4,10 +4,10 @@ import requests
 from bs4 import BeautifulSoup
 
 from immunity import get_headers, get_random_proxy, wait
+from project.database import db, Recipes, Ingredients, Quantity, Book
 
 
 class CheckText:
-
     @staticmethod
     def check_str(text):
         pattern = '[а-яА-Яa-zA-Z]'
@@ -16,7 +16,6 @@ class CheckText:
 
 
 class Request:
-
     @staticmethod
     def do_request(url):
         while True:
@@ -71,16 +70,16 @@ class Parser:
     @staticmethod
     def _get_ingredients_and_quantity(soup):
         spans = soup.find('table', class_="ingr").find_all('span', class_='')
-        ingredients = dict()
+        ingredients_and_quantity = dict()
         for span in spans:
             ing = span.text
             if CheckText.check_str(ing):
                 try:
-                    result = re.split(r'[-—]', ing, maxsplit=1)
-                    ingredients[result[0].strip()] = result[1].strip()
+                    result = re.split(r'[-—–]', ing, maxsplit=1)
+                    ingredients_and_quantity[result[0].strip()] = result[1].strip()
                 except:
                     pass
-        return ingredients
+        return ingredients_and_quantity
 
     @staticmethod
     def _get_recipe_title(soup):
@@ -98,11 +97,11 @@ class Parser:
                 soup = self._create_soup(response)
 
                 title = self._get_recipe_title(soup)
-                ingredients = self._get_ingredients_and_quantity(soup)
+                ingredients_and_quantity = self._get_ingredients_and_quantity(soup)
                 description = self._get_recipe_description(soup)
 
-                if title and ingredients and description:
-                    content_dict[title] = [ingredients, description]
+                if title and ingredients_and_quantity and description:
+                    content_dict[title] = [ingredients_and_quantity, description]
                     print(f'=== Спарсил рецептов: {count} ===')
                     count += 1
                 wait()
@@ -113,11 +112,28 @@ class Parser:
 
 
 class WriteRecipesToDB:
-
     @staticmethod
-    def save_to_db(recipes):
-        for title, ing_and_description in recipes.items():
-            print(title)
-            print(ing_and_description[0])
-            print(ing_and_description[1])
-            print('--------------------------------------------------------------')
+    def save_to_db(recipes_dict):
+        for title, ing_and_description in recipes_dict.items():
+            rec = Recipes(title=title, description=ing_and_description[1])
+            db.session.add(rec)
+            db.session.flush()
+
+            for ingredient, quantity in ing_and_description[0].items():
+                ing = Ingredients.query.filter_by(ingredient=ingredient).first()
+                if ing is None:
+                    ing = Ingredients(ingredient=ingredient)
+                db.session.add(ing)
+                db.session.flush()
+
+                quan = Quantity.query.filter_by(quantity=quantity).first()
+                if quan is None:
+                    quan = Quantity(quantity=quantity)
+                db.session.add(quan)
+                db.session.flush()
+
+                book = Book(recipe=rec, ingredient=ing, quantity=quan)
+                db.session.add(book)
+                db.session.flush()
+
+            db.session.commit()
