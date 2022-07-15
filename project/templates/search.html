@@ -9,13 +9,15 @@
 
 {% for recipe in recipes %}
 
-<h3>{{ recipe.title }}</h3>
+<div class="recipe">
+  <h3>{{ recipe.title }}</h3>
 
-<ul>
-  {% for full_recipe in recipe.book %}
-  <li>{{ full_recipe.ingredient.ingredient }} — {{ full_recipe.quantity.quantity }}</li>
-  {% endfor %}
-</ul>
+  <ul>
+    {% for full_recipe in recipe.book %}
+    <li>{{ full_recipe.ingredient.ingredient }} — {{ full_recipe.quantity.quantity }}</li>
+    {% endfor %}
+  </ul>
+</div>
 
 {% endfor %}
 

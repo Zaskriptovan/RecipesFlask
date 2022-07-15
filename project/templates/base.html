@@ -3,36 +3,46 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="shortcut icon" href="#">
 
   {% if title %}
   <title>Рецепты - {{ title }}</title>
   {% else %}
   <title>Рецепты - Главная</title>
   {% endif %}
+
+  <link rel="shortcut icon" href="#">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
-  {% block mainmenu %}
-  <ul>
-    <li><a href='/'>Главная</a></li>
-    <li><a href='/registration'>Регистрация</a></li>
-    <li><a href='/about'>О сайте</a></li>
-  </ul>
-  {% endblock %}
+  <header class="header">
+    <h1 class="website_name">Рецепты от Сани</h1>
 
-  {% block title %}
-  {% if title %}
-  <h1>{{ title }}</h1>
-  {% else %}
-  <h1>Главная</h1>
-  {% endif %}
-  {% endblock %}
+    <nav class="mainmenu">
+      <ul>
+        <li><a href='/'>Главная</a></li>
+        <li><a href='/registration'>Регистрация</a></li>
+        <li><a href='/about'>О сайте</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <form action="search" method="get">
-    <p><input type="text" placeholder="Поиск" name="q" value="{{ request.args.get('q', '') }}"></p>
-    <p><input type="submit" value="Найти"></p>
+  <div class="title">
+    {% block title %}
+    {% if title %}
+    <h2>{{ title }}</h2>
+    {% else %}
+    <h2>Главная</h2>
+    {% endif %}
+    {% endblock %}
+  </div>
+
+
+  <form action="search" method="get" class="search-form">
+    <input type="text" class="search-bar" placeholder="Поиск" name="q" value="{{ request.args.get('q', '') }}">
+    <input type="submit" class="submit" value="Найти">
   </form>
+
 
 
   {% block content %}

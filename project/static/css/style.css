@@ -1,0 +1,135 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-color: rgb(255, 253, 235);
+}
+
+body {
+  margin: 40px auto 200px;
+  font-size: 24px;
+  font-weight: normal;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  max-width: 1100px;
+  min-height: 500px;
+  box-shadow: 1px 5px 10px -5px black;
+  background-color: azure;
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  background-color: antiquewhite;
+  box-shadow: 1px 5px 10px -5px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
+  left: 0;
+  margin-bottom: 15px;
+}
+
+.website_name {
+  font-size: 36px;
+  color: rgb(175, 117, 0);
+  margin-left: 2%;
+}
+
+.mainmenu ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+.mainmenu li {
+  background-color: rgb(249, 198, 102);
+  display: flex;
+  margin-left: 4px;
+  padding: 0px 50px;
+  border-radius: 2em / 5em;
+}
+
+.mainmenu ul li:hover {
+  background-color: rgb(255, 166, 0);
+  box-shadow: 1px 7px 30px -5px black;
+  transform: rotate(-2deg) scale(1.2);
+}
+
+.mainmenu a {
+  text-decoration: none;
+  color: rgb(44, 48, 165);
+  font-size: 30px;
+  margin: auto;
+}
+
+.mainmenu a:hover {
+  color: rgb(182, 24, 24);
+}
+
+.title {
+  text-align: center;
+  color: rgb(225, 118, 51);
+}
+
+.search-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 80%;
+  margin: 30px auto;
+}
+
+.search-form input {
+  padding: 10px 15px;
+  font-size: 18px;
+  border-radius: 10px;
+}
+
+.search-bar {
+  width: 85%;
+  border: none;
+  margin-right: 7px;
+}
+
+.submit {
+  width: 90px;
+  background-color: #1c87c9;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+
+.submit:hover {
+  opacity: 0.8;
+}
+
+.recipe {
+  padding: 15px 30px;
+  background-color: rgb(255, 253, 221);
+  margin: 0 30px 20px 30px;
+  border-radius: 30px;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+}
+
+.recipe h3 {
+  color: rgb(40, 104, 47);
+  margin-left: 4%;
+}
+
+.recipe ul {
+  list-style: none;
+  margin-left: 7%;
+  color: rgb(89, 89, 89);
+}
+
+.recipe p {
+  color: rgb(109, 109, 109);
+  text-align: justify;
+}
