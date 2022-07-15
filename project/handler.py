@@ -57,3 +57,7 @@ class Handler:
 
         else:
             return render_template('search.html', title='Поиск')
+
+    @staticmethod
+    def about():
+        return render_template('about.html')
