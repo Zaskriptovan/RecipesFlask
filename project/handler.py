@@ -1,4 +1,4 @@
-from flask import render_template, request, flash
+from flask import render_template, request, flash, jsonify
 from project.database import db, Recipes, Ingredients, Book
 
 
@@ -43,21 +43,50 @@ class Searcher:
 class Handler:
     @staticmethod
     def index():
-        recipes = Recipes.query.order_by(Recipes.id.desc()).limit(20).all()
+        recipes = Recipes.query.order_by(Recipes.id.desc()).limit(5).all()
         return render_template('index.html', recipes=recipes)
 
+    # @staticmethod
+    # def search():
+    #     q = request.args.get('q')
+    #     if q:
+    #         recipes = Searcher.result(q)
+    #         if not recipes:
+    #             flash('НЕ НАЙДЕНО')
+    #         return render_template('search.html', recipes=recipes, title='Поиск')
+    #     else:
+    #         return render_template('search.html', recipes=None, title='Поиск')
+
     @staticmethod
-    def search():
-        q = request.args.get('q')
-        if q:
-            recipes = Searcher.result(q)
+    def search(ing):
+        if ing:
+            recipes = Searcher.result(ing)
             if not recipes:
                 flash('НЕ НАЙДЕНО')
             return render_template('search.html', recipes=recipes, title='Поиск')
-
         else:
-            return render_template('search.html', title='Поиск')
+            return render_template('search.html', recipes=None, title='Поиск')
+
+    @staticmethod
+    def recipe_details(recipe_id):
+        recipe = Recipes.query.get(recipe_id)
+        return render_template('recipe_details.html', recipe=recipe, title=f'Рецепт №{recipe_id}')
 
     @staticmethod
     def about():
-        return render_template('about.html')
+        return render_template('about.html', title='О сайте')
+
+    @staticmethod
+    def live_search():
+        if request.method == "POST":
+            json_data = request.get_json()
+            # print(json_data)
+            ingredients = Ingredients.query.filter(Ingredients.ingredient.ilike(f'%{json_data["ingredient"]}%')).all()
+            ing_list = []
+            for ing in ingredients:
+                ing_list.append(ing.ingredient)
+
+            return jsonify(ing_list)
+
+        elif request.method == "GET":
+            return '<h1>(-_-)</h1>'
