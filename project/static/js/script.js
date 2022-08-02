@@ -52,7 +52,7 @@ function liveSearchFetch(ing) {
           span.innerHTML = li.innerHTML;
           span.className = 'selected-ingredient-span';
 
-          let btn = document.createElement('input');
+          let btn = document.createElement('button');
           btn.type = 'button';
           btn.className = 'search-element-btn';
 
@@ -82,11 +82,4 @@ searchButton.addEventListener('click', function () {
   if (ingList.length > 0) {
     window.location.href = `http://127.0.0.1:5000/search/${ingList}`;
   }
-
 });
-
-
-
-
-
-
