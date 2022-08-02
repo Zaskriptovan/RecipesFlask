@@ -2,20 +2,14 @@
 
 {% block content %}
 
-{% for recipe in recipes %}
 <div class="recipe">
-  <h3><a href="{{ url_for('recipe_details', recipe_id=recipe.id) }}">{{ recipe.title }}</a></h3>
-
+  <h3>{{ recipe.title }}</h3>
   <ul>
     {% for full_recipe in recipe.book %}
     <li>{{ full_recipe.ingredient.ingredient }} – {{ full_recipe.quantity.quantity }}</li>
     {% endfor %}
   </ul>
-
-  <p class="limit-description">{{ recipe.description }}</p>
+  <p>{{ recipe.description }}</p>
 </div>
-
-{% endfor %}
-
 
 {% endblock %}

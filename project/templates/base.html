@@ -16,7 +16,7 @@
 
 <body>
   <header class="header">
-    <h1 class="website_name">Рецепты от Сани</h1>
+    <h1 id="website-name" class="website-name">Рецепты от Сани</h1>
 
     <nav class="mainmenu">
       <ul>
@@ -37,17 +37,26 @@
     {% endblock %}
   </div>
 
+  <div class="selected-ingredients"></div>
 
-  <form action="search" method="get" class="search-form">
+  <!-- <form action=" search" method="get" class="search-form">
     <input type="text" class="search-bar" placeholder="Поиск" name="q" value="{{ request.args.get('q', '') }}">
     <input type="submit" class="submit" value="Найти">
-  </form>
+  </form> -->
+
+  <div class="search">
+    <input type="text" class="search-bar" placeholder="Поиск ингредиентов">
+    <ul id="live-search" class="live-search-list"></ul>
+  </div>
+
+  <input type="button" class="search-button" value="Найти рецепты">
 
 
 
   {% block content %}
   {% endblock %}
 
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>

@@ -1,22 +1,5 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <link rel="shortcut icon" href="#">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/test.css') }}">
-</head>
+{% block content %}
 
-<body>
-
-  <nav class="mainmenu">
-    <ul>
-      <li><a href='/'>Главная</a></li>
-      <li><a href='/registration'>Регистрация</a></li>
-      <li><a href='/about'>О сайте</a></li>
-    </ul>
-  </nav>
-
-</body>
-
-</html>
+{% endblock %}

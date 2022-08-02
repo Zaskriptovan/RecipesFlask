@@ -18,6 +18,7 @@ body {
   min-height: 500px;
   box-shadow: 1px 5px 10px -5px black;
   background-color: azure;
+  padding-bottom: 50px;
 }
 
 
@@ -29,12 +30,13 @@ body {
   background-color: antiquewhite;
   box-shadow: 1px 5px 10px -5px rgba(0, 0, 0, 0.5);
   position: sticky;
+  z-index: 2;
   top: 0;
   left: 0;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 }
 
-.website_name {
+.website-name {
   font-size: 36px;
   color: rgb(175, 117, 0);
   margin-left: 2%;
@@ -59,7 +61,7 @@ body {
 .mainmenu ul li:hover {
   background-color: rgb(255, 166, 0);
   box-shadow: 1px 7px 30px -5px black;
-  transform: rotate(-2deg) scale(1.2);
+  transform: rotate(2deg) scale(1.1);
 }
 
 .mainmenu a {
@@ -76,39 +78,87 @@ body {
 .title {
   text-align: center;
   color: rgb(225, 118, 51);
+  margin-bottom: 30px;
 }
 
-.search-form {
+.selected-ingredients {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  max-width: 80%;
-  margin: 30px auto;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  min-height: 40px;
 }
 
-.search-form input {
-  padding: 10px 15px;
-  font-size: 18px;
+.selected-ingredient-span {
+  background-color: rgb(255, 234, 183);
+  border-radius: 8px;
+  margin: 0 0 5px 8px;
+  padding: 1px 7px 3px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.search-element-btn {
+  width: 20px;
+}
+
+.search-bar,
+.search-button {
+  display: block;
+  padding: 7px 15px;
+  font-size: 24px;
+  font-family: inherit;
   border-radius: 10px;
 }
 
-.search-bar {
+.search {
   width: 85%;
-  border: none;
-  margin-right: 7px;
+  margin: 0 auto 15px;
+  position: relative;
 }
 
-.submit {
-  width: 90px;
+.search-bar {
+  width: 100%;
+  border: none;
+  margin: 0 auto;
+}
+
+.live-search-list {
+  list-style: none;
+  display: none;
+  background-color: rgb(230, 240, 252);
+  border-radius: 10px;
+  color: rgb(73, 73, 73);
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  overflow-y: scroll;
+  height: 52vh;
+}
+
+.search-element {
+  border-radius: 7px;
+  padding: 0 15px;
+}
+
+.search-element:hover {
+  color: rgb(214, 140, 12);
+  background-color: rgb(205, 228, 255);
+  cursor: pointer;
+}
+
+.search-button {
   background-color: #1c87c9;
   color: #ffffff;
   border: none;
   cursor: pointer;
+  margin: 0 auto 20px;
 }
 
-.submit:hover {
+.search-button:hover {
   opacity: 0.8;
 }
+
 
 .recipe {
   padding: 15px 30px;
@@ -121,6 +171,17 @@ body {
 .recipe h3 {
   color: rgb(40, 104, 47);
   margin-left: 4%;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.recipe h3 a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.recipe h3 a:hover {
+  opacity: 0.8;
 }
 
 .recipe ul {
@@ -132,4 +193,29 @@ body {
 .recipe p {
   color: rgb(109, 109, 109);
   text-align: justify;
+}
+
+.limit-description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.flashed-messages {
+  text-align: center;
+}
+
+.red {
+  color: rgb(167, 0, 0);
+}
+
+.green {
+  color: green;
+}
+
+@media (max-width: 1000px) {
+  .mainmenu ul {
+    display: none;
+  }
 }

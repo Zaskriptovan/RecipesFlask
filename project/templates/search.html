@@ -3,23 +3,29 @@
 {% block content %}
 
 {% for message in get_flashed_messages() %}
-{{ message }}
+<h3 class="red flashed-messages">{{ message }}</h3>
 {% endfor %}
 
 
+{% if recipes %}
 {% for recipe in recipes %}
 
 <div class="recipe">
-  <h3>{{ recipe.title }}</h3>
+  <h3><a href="{{ url_for('recipe_details', recipe_id=recipe.id) }}">{{ recipe.title }}</a></h3>
 
   <ul>
     {% for full_recipe in recipe.book %}
     <li>{{ full_recipe.ingredient.ingredient }} — {{ full_recipe.quantity.quantity }}</li>
     {% endfor %}
   </ul>
+
+  <p>{{ recipe.description }}</p>
 </div>
 
 {% endfor %}
 
+{% elif recipes == None %}
+<h3 class="green flashed-messages">Введите ингредиенты в поиск</h3>
+{% endif %}
 
 {% endblock %}
